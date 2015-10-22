@@ -6,3 +6,13 @@ div.metadata {
 ul li {
     display: inline;
 }
+
+
+#apptitle {
+    background-color: orange;
+    color: white;
+}
+
+.navibar-header {
+    background-color: blue;
+}

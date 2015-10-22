@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron" id="apptitle">
+    <h1>Global Legal Entity Identifier (LEI) Search Utility</h1>
+    <h3>A Thinkful Capstone Project</h3>
+    <p>Developer: Ben Lis, Mentor: Brian Redfern</p>
+</div>
+<div class="jumbotron">
+    <h2>Search:</h2>
+        <form role="form" method="POST">
+          <div class="form-group">
+              <label for="lei">LEI:</label>
+              <input type="search" class="form-control" id="lei" name="lei" placeholder="Enter LEI">
+          </div>
+          <div class="form-group">
+              <label for="name">Entity Name:</label>
+              <input type="search" class="form-control" id="name" name="name" placeholder="Enter name">
+          </div>
+         <button type="submit" class="btn btn-default">Submit</button>
+  </form>
+</div>
+{% endblock %}
