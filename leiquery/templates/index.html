@@ -1,22 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="jumbotron" id="apptitle">
-    <h1>Global Legal Entity Identifier (LEI) Search Utility</h1>
-    <h3>A Thinkful Capstone Project</h3>
-    <p>Developer: Ben Lis, Mentor: Brian Redfern</p>
+    <h2>Global Legal Entity Identifier (LEI) Search Utility</h2>
+    <h4>A Thinkful Capstone Project</h4>
+    <h4>Developer: Ben Lis, Mentor: Brian Redfern</h4>
+    <!-- <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-search"></span> Search </a> -->
 </div>
-<div class="jumbotron">
-    <h2>Search:</h2>
+<div class="jumbotron" id="searchbox">
         <form role="form" method="POST">
-          <div class="form-group">
-              <label for="lei">LEI:</label>
-              <input type="search" class="form-control" id="lei" name="lei" placeholder="Enter LEI">
-          </div>
-          <div class="form-group">
-              <label for="name">Entity Name:</label>
-              <input type="search" class="form-control" id="name" name="name" placeholder="Enter name">
-          </div>
-         <button type="submit" class="btn btn-default">Submit</button>
-  </form>
+            <div class="form-group">
+                <label for="lei">LEI:</label>
+                <input type="search" class="form-control" id="lei" name="lei" placeholder="Enter LEI">
+            </div>
+            <div class="form-group">
+                <label for="name">Entity Name:</label>
+                <input type="search" class="form-control" id="name" name="name" placeholder="Enter name">
+            </div>
+            <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-search"></span></button>
+        </form>
+</div>
+<div class="jumbotron" id="leinews">
+    <h2>LEI News</h2>
 </div>
 {% endblock %}

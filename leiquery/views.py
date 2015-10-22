@@ -1,6 +1,7 @@
 from flask import render_template
 from flask import flash
 from flask import request, redirect, url_for
+from flask.ext.login import login_required
 from flask.ext.login import login_user
 from werkzeug.security import check_password_hash
 
@@ -42,6 +43,7 @@ def login_post():
     return redirect(request.args.get('next') or url_for("search_get"))
 
 @app.route("/gui/search", methods=["GET"])
+@login_required
 def search_get():
     return render_template("search.html")
     

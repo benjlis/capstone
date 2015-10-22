@@ -9,7 +9,16 @@ ul li {
 
 
 #apptitle {
-    background-color: orange;
+    background-color: #FF9800;
+    color: white;
+}
+
+#searchbox {
+    background-color: #FFFFFF;
+}
+
+#leinews {
+    background-color: #7E8AA2;
     color: white;
 }
 
