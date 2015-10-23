@@ -2,7 +2,7 @@ from flask import render_template
 from flask import flash
 from flask import request, redirect, url_for
 from flask.ext.login import login_required
-from flask.ext.login import login_user
+from flask.ext.login import login_user, logout_user
 from werkzeug.security import check_password_hash
 
 
@@ -40,12 +40,19 @@ def login_post():
         flash("Incorrect username or password", "danger")
         return redirect(url_for("login_get"))
     login_user(user)
-    return redirect(request.args.get('next') or url_for("search_get"))
+    return redirect(request.args.get('next') or url_for("landing_get"))
 
 @app.route("/gui/search", methods=["GET"])
 @login_required
 def search_get():
     return render_template("search.html")
+    
+@app.route("/gui/logout", methods=["GET"])
+@login_required
+def logout():
+    logout_user()
+    return render_template("logout.html")
+    
     
 @app.route("/gui/search", methods=["POST"])
 def search_post():

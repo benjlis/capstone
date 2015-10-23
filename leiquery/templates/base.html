@@ -26,9 +26,14 @@
             </div>
             <div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url_for('search_get') }}"</li><span class="glyphicon glyphicon-search"></span> Search</a></li>
+                    <li><a href="{{ url_for('search_get') }}"><span class="glyphicon glyphicon-search"></span> Search</a></li>
+{% if current_user.is_authenticated %}
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span>{{ current_user.username }}</a></li>
+                    <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+{% else %}
                     <li><a href="{{ url_for('signup_get') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                     <li><a href="{{ url_for('login_get') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+{% endif %}
                 </ul>
             </div>
           </div>
