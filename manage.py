@@ -44,5 +44,39 @@ def adduser():
     session.add(user)
     session.commit()
     
+import datetime
+import urllib2
+import zipfile
+
+GLEIF_DATE = os.environ.get("GLEIF_DATE", datetime.date.today().strftime("%Y%m%d"))
+GLEIF_FILE = GLEIF_DATE + '-GLEIF-concatenated-file.zip'
+GLEIF_URL = 'https://www.gleif.org/lei-files/' + GLEIF_DATE + '/GLEIF/' + GLEIF_FILE
+GLEIF_DOWNLOAD_DIR  = os.environ.get("GLEIF_DOWNLOAD_DIR", "gleif_downloads/")
+GLEIF_DOWNLOAD = GLEIF_DOWNLOAD_DIR + GLEIF_FILE
+
+@manager.command
+def download():
+    """Downloads file with today's date embedded in it"""
+    print 'LEI Smart GLEIF Download'
+    print 'starting at ' + str(datetime.datetime.now())
+
+    # download and unzip today's file
+    print 'downloading ' + GLEIF_URL
+    t = urllib2.urlopen(GLEIF_URL)
+    output = open(GLEIF_DOWNLOAD,'wb')
+    output.write(t.read())
+    output.close()
+    print 'unzipping'
+    with zipfile.ZipFile(GLEIF_DOWNLOAD, 'r') as gleif_zip:
+		gleif_zip.extractall(GLEIF_DOWNLOAD_DIR) 
+
+    # to-dos: 
+    # (1) just keep one week of zip files around; 
+    # (2) consolidated file is from today - maybe the best is to rm or mv
+    # (3) better file listing
+    print os.listdir(GLEIF_DOWNLOAD_DIR)        
+    print 'completed at ' +  str(datetime.datetime.now())
+  
+    
 if __name__ == "__main__":
     manager.run()
