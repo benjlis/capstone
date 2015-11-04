@@ -49,25 +49,28 @@ import urllib2
 import zipfile
 
 GLEIF_DATE = os.environ.get("GLEIF_DATE", datetime.date.today().strftime("%Y%m%d"))
-GLEIF_FILE = GLEIF_DATE + '-GLEIF-concatenated-file.zip'
-GLEIF_URL = 'https://www.gleif.org/lei-files/' + GLEIF_DATE + '/GLEIF/' + GLEIF_FILE
+GLEIF_ZIP = GLEIF_DATE + '-GLEIF-concatenated-file.zip'
+GLEIF_XML = GLEIF_DATE + '-GLEIF-concatenated.xml'
+GLEIF_URL = 'https://www.gleif.org/lei-files/' + GLEIF_DATE + '/GLEIF/' + GLEIF_ZIP
 GLEIF_DOWNLOAD_DIR  = os.environ.get("GLEIF_DOWNLOAD_DIR", "gleif_downloads/")
-GLEIF_DOWNLOAD = GLEIF_DOWNLOAD_DIR + GLEIF_FILE
+GLEIF_DOWNLOAD_ZIP = GLEIF_DOWNLOAD_DIR + GLEIF_ZIP
+GLEIF_DOWNLOAD_XML = GLEIF_DOWNLOAD_DIR + GLEIF_XML
+
 
 @manager.command
-def download():
-    """Downloads file with today's date embedded in it"""
+def download_gleif():
+    """Download GLEIF file with today's date embedded in it"""
     print 'LEI Smart GLEIF Download'
     print 'starting at ' + str(datetime.datetime.now())
 
     # download and unzip today's file
     print 'downloading ' + GLEIF_URL
     t = urllib2.urlopen(GLEIF_URL)
-    output = open(GLEIF_DOWNLOAD,'wb')
+    output = open(GLEIF_DOWNLOAD_ZIP,'wb')
     output.write(t.read())
     output.close()
     print 'unzipping'
-    with zipfile.ZipFile(GLEIF_DOWNLOAD, 'r') as gleif_zip:
+    with zipfile.ZipFile(GLEIF_DOWNLOAD_ZIP, 'r') as gleif_zip:
 		gleif_zip.extractall(GLEIF_DOWNLOAD_DIR) 
 
     # to-dos: 
@@ -76,7 +79,11 @@ def download():
     # (3) better file listing
     print os.listdir(GLEIF_DOWNLOAD_DIR)        
     print 'completed at ' +  str(datetime.datetime.now())
-  
+
+@manager.command
+def process_gleif(file=GLEIF_DOWNLOAD_XML):
+    """Parses and loads GLEIF data"""
+    print "will process this file: " + file
     
 if __name__ == "__main__":
     manager.run()

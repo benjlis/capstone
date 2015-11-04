@@ -1,30 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="jumbotron" id="apptitle">
+<div class="container col-sm-12" id="apptitle">
     <h2>Global Legal Entity Identifier (LEI) Search Utility</h2>
-    <h4>A Thinkful Capstone Project</h4>
-    <h4>Developer: Ben Lis, Mentor: Brian Redfern</h4>
-    <!-- <a href="#" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-search"></span> Search </a> -->
+    <form role="form-inline" method="POST">
+        <div class="form-group col-xs-3">
+            <input type="search" class="form-control" id="lei" name="lei" maxlength="20" placeholder="LEI">
+        </div>
+        <div class="form-group col-xs-5">
+            <input type="search" class="form-control" id="name" name="name" size="40" placeholder="Entity Name">
+        </div>
+        <button type="submit" class="btn bt"><span class="glyphicon glyphicon-search"></span></button>
+    </form>
 </div>
-<div class="jumbotron" id="searchbox">
-    <h2>Query</h2>
-        <form role="form" method="POST">
-            <div class="form-group">
-                <label for="lei">LEI:</label>
-                <input type="search" class="form-control" id="lei" name="lei" placeholder="Enter LEI">
-            </div>
-            <div class="form-group">
-                <label for="name">Entity Name:</label>
-                <input type="search" class="form-control" id="name" name="name" placeholder="Enter name">
-            </div>
-            <button type="submit" class="btn btn-lg"><span class="glyphicon glyphicon-search"></span></button>
-        </form>
-<!-- </div>
-<div class="container" id="leinews"> -->
+
+<div class="container col-sm-6" id="leinews">
     <h2>News</h2>
     <a class="twitter-timeline" href="https://twitter.com/leismartco" data-widget-id="657542979360595968">
         Tweets by @leismartco
     </a>
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</div>
+
+<div class="container col-sm-6" id="project">
+    <h2>A Thinkful Capstone Project</h2>
+    <dl>
+        <dt>Developer</dt>
+        <dd>Ben Lis</dd>
+        <dt>Mentor</dt>
+        <dd>Brian Redfern</dd>
+    </dl>
 </div>
 {% endblock %}

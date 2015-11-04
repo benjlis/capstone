@@ -22,6 +22,11 @@ ul li {
     color: white;
 }
 
+#project {
+    background-color: grey;
+    color: white;
+}
+
 .navibar-header {
     background-color: blue;
 }
