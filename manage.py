@@ -45,17 +45,19 @@ def adduser():
     session.commit()
     
 import datetime
-import urllib2
+from urllib2 import Request, urlopen, URLError, HTTPError
 import zipfile
+import leiquery.parse
 
 GLEIF_DATE = os.environ.get("GLEIF_DATE", datetime.date.today().strftime("%Y%m%d"))
 GLEIF_ZIP = GLEIF_DATE + '-GLEIF-concatenated-file.zip'
 GLEIF_XML = GLEIF_DATE + '-GLEIF-concatenated.xml'
+GLEIF_CSV = GLEIF_DATE + '-GLEIF-concatenated.csv'
 GLEIF_URL = 'https://www.gleif.org/lei-files/' + GLEIF_DATE + '/GLEIF/' + GLEIF_ZIP
 GLEIF_DOWNLOAD_DIR  = os.environ.get("GLEIF_DOWNLOAD_DIR", "gleif_downloads/")
 GLEIF_DOWNLOAD_ZIP = GLEIF_DOWNLOAD_DIR + GLEIF_ZIP
 GLEIF_DOWNLOAD_XML = GLEIF_DOWNLOAD_DIR + GLEIF_XML
-
+GLEIF_DOWNLOAD_CSV = GLEIF_DOWNLOAD_DIR + GLEIF_CSV
 
 @manager.command
 def download_gleif():
@@ -65,10 +67,20 @@ def download_gleif():
 
     # download and unzip today's file
     print 'downloading ' + GLEIF_URL
-    t = urllib2.urlopen(GLEIF_URL)
-    output = open(GLEIF_DOWNLOAD_ZIP,'wb')
-    output.write(t.read())
-    output.close()
+    try:
+        t = urlopen(GLEIF_URL)
+        output = open(GLEIF_DOWNLOAD_ZIP,'wb')
+        output.write(t.read())
+        output.close()
+    except HTTPError as e:
+        print 'The GLEIF server couldn\'t fulfill the request.'
+        print 'HTTP Error code: ', e.code
+        return 1
+    except URLError as e:
+        print 'Failed to reach the GLEIF server.'
+        print 'Reason: ', e.reason
+        return 1
+        
     print 'unzipping'
     with zipfile.ZipFile(GLEIF_DOWNLOAD_ZIP, 'r') as gleif_zip:
 		gleif_zip.extractall(GLEIF_DOWNLOAD_DIR) 
@@ -79,6 +91,17 @@ def download_gleif():
     # (3) better file listing
     print os.listdir(GLEIF_DOWNLOAD_DIR)        
     print 'completed at ' +  str(datetime.datetime.now())
+
+@manager.command
+def xml2csv_gleif(xmlfile=GLEIF_DOWNLOAD_XML, csvfile=GLEIF_DOWNLOAD_CSV):
+    """Converts the GLEIF XML download into a CSV"""
+    print 'LEI Smart GLEIF XML to CSV conversion'
+    print 'starting at ' + str(datetime.datetime.now())
+    # 
+    leiquery.parse.process_gleif(xmlfile, csvfile)
+    #
+    print os.listdir(GLEIF_DOWNLOAD_DIR)
+    print 'completed at ' + str(datetime.datetime.now())
 
 @manager.command
 def process_gleif(file=GLEIF_DOWNLOAD_XML):
