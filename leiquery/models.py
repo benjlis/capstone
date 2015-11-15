@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy import Column, Integer, String, Text, DateTime
-from .database import Base, engine
+from database import Base, engine
 
 from flask.ext.login import UserMixin
 
@@ -20,10 +20,9 @@ class User(Base, UserMixin):
 class LegalEntity(Base):
     __tablename__ = "legal_entities"
     
-    id = Column(Integer, primary_key=True)
-    lei = Column(String(20), unique=True, nullable=False)
+    lei = Column(String(20), primary_key=True)
     legal_name = Column(String(500), nullable=False)
-    legal_address_line1 = Column(String(500), nullable=False)
+    legal_address_line1 = Column(String(500)) # nullable=False, generates error as of 20151109
     legal_address_line2 = Column(String(500))
     legal_address_line3 = Column(String(500))
     legal_address_line4 = Column(String(500))
@@ -31,7 +30,7 @@ class LegalEntity(Base):
     legal_address_region = Column(String(6))
     legal_address_country = Column(String(2), nullable=False)
     legal_address_postal_code = Column(String(500))
-    hq_address_line1 = Column(String(500), nullable=False)
+    hq_address_line1 = Column(String(500)) # nullable=False error, see above
     hq_address_line2 = Column(String(500))
     hq_address_line3 = Column(String(500))
     hq_address_line4 = Column(String(500))
