@@ -3,28 +3,38 @@ div.metadata {
     font-size: 1.5em;
 }
 
+/*
 ul li {
     display: inline;
 }
 
+.row {
+    display: flex;
+}
+*/
 
-#apptitle {
+#apptitle, #qryform {
     background-color: #FF9800;
     color: white;
 }
 
-#searchbox {
+#searchboox {
     background-color: #FFFFFF;
 }
 
 #leinews {
     background-color: #7E8AA2;
     color: white;
+    
 }
 
 #project {
     background-color: grey;
     color: white;
+}
+
+a.black {
+    color: black;
 }
 
 .navibar-header {

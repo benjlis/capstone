@@ -13,6 +13,45 @@
     </form>
 </div>
 
+<div class="container col-sm-6" id="project">
+    <h2>LEI Query: A Thinkful Capstone Project</h2>
+    <p><strong>Developer:</strong> Ben Lis, <strong>Mentor:</strong> Brian Redfern</p>
+    <h3>What it does:</h3>
+    <p>LEI Query enables registered users to query the 400K+ record Legal Entity Identifier database 
+    for companies by either their name or LEI code.</p>
+    <p>If you've got an account, you can give it a try by entering the name of your favorite large tech company 
+    such as Google into the name field. You can see an even larger result set by typing in the name of
+    a large investment firm such as Goldman Sachs.</p>
+    <h3>Built with this technology stack:</h3>
+        <div>
+            <dl>
+                <dt><a href="http://www.python.org" target="_blank" class="black">Python</a></dt>
+                <dd>general purpose programming language, v2.7</dd>
+                <dt><a href="http://flask.pocoo.org" target="_blank" class="black">Flask</a></dt>
+                <dd>web framework that includes Jinja 2 and SQLAlchemy, v.10</dd>
+                <dt><a href="http://www.postgresql.org" target="_blank" class="black">PostgreSQL</a></dt>
+                <dd>relational database management system, v9.3</dd>
+                <dt><a href="http://www.getbootstrap.com" target="_blank" class="black">Bootstrap</a></dt>
+                <dd>HTML5, CSS, JavaScript framework for developing responsive front ends, v3.3</dd>
+            </ul>
+        </div>
+    <h3>Behind the scenes:</h3>
+    <ul>
+        <li>Copies and unzips the 50Mb GLEIF XML file</li>
+        <li>XML parses and loads the 400K LEI records from the GLEIF file into Postgresql</li>
+        <li>SQLAlchemy data models for users and legal entities</li>
+        <li>User management: creates new registerd users, login and logout functionality</li>
+        <li>Support for query by LEI or Name</li>
+        <li>Jinja2 templates with Bootstrap support for the landing and query pages</li>
+        <li>Widget of LEI Smart twitter feed</li>
+    </ul>
+    <h3>To learn more about LEIs check out:</h3>
+        <ul>
+            <li><a href="http://www.gleif.org" target="_blank" class="black">Global Legal Entity Identifier Foundation (GLEIF)</a></li>
+            <li><a href="http://www.leiroc.org" target="_blank" class="black">Legal Entity Identifier Regulatory Oversight Committee (LEI ROC)</a></li>
+        </ul>
+</div>
+
 <div class="container col-sm-6" id="leinews">
     <h2>News</h2>
     <a class="twitter-timeline" href="https://twitter.com/leismartco" data-widget-id="657542979360595968">
@@ -20,14 +59,5 @@
     </a>
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 </div>
-
-<div class="container col-sm-6" id="project">
-    <h2>A Thinkful Capstone Project</h2>
-    <dl>
-        <dt>Developer</dt>
-        <dd>Ben Lis</dd>
-        <dt>Mentor</dt>
-        <dd>Brian Redfern</dd>
-    </dl>
 </div>
 {% endblock %}

@@ -8,7 +8,8 @@ from werkzeug.security import check_password_hash
 
 from leiquery import app
 from .database import session
-from .models import User
+from sqlalchemy import or_
+from .models import User, LegalEntity
 
 
 @app.route("/", methods=["GET"])
@@ -21,7 +22,18 @@ def landing_get():
 def landing_post():
     lei = request.form["lei"]
     name = request.form["name"]
-    return redirect(url_for("search_get"))
+    if lei:
+        query_string = '?lei=' + lei
+        if name:
+            query_string += '&name=' + name
+    elif name:
+        query_string = '?name=' + name
+    else:
+        query_string = ""
+    return redirect(url_for("search_post") + query_string)
+    #lei, name, results = query_lei()
+    #return(render_template("search.html", lei_arg=lei, name_arg=name,
+    #                        results_arg=results))
 
 @app.route("/gui/signup", methods=["GET"])
 def signup_get():
@@ -45,7 +57,29 @@ def login_post():
 @app.route("/gui/search", methods=["GET"])
 @login_required
 def search_get():
-    return render_template("search.html")
+    #lei = request.args.get("lei")
+    #if lei is None:
+    #    lei = ""
+    #name = request.args.get("name")
+    #if name is None:
+    #    name = ""
+    results=[]
+    lei = request.args.get("lei")
+    name = request.args.get("name")
+    # check for None and set to null for later display in template
+    if lei == None: 
+        lei = ""
+    if name == None:
+        name = ""
+    if lei: 
+        results = session.query(LegalEntity).filter(LegalEntity.lei == lei)
+        name = ""
+    elif name:
+        results = session.query(LegalEntity).filter( 
+                                LegalEntity.legal_name.ilike('%'+name+'%'))
+        lei=""                        
+    return render_template("search.html", lei_arg=lei, name_arg=name,
+                                results_arg=results)
     
 @app.route("/gui/logout", methods=["GET"])
 @login_required
@@ -53,8 +87,33 @@ def logout():
     logout_user()
     return render_template("logout.html")
     
+def query_lei():
+    # check form or args for values
+    lei = request.form["lei"]
+    name = request.form["name"]
+    results = []
+    if lei: 
+        results = session.query(LegalEntity).filter(LegalEntity.lei == lei)
+        name = ""
+    elif name:
+        results = session.query(LegalEntity).filter( 
+                                LegalEntity.legal_name.ilike('%'+name+'%'))
+        lei = ""
+    return lei, name, results
+            
     
 @app.route("/gui/search", methods=["POST"])
+@login_required
 def search_post():
-    # return  redirect(request.args.get('next') or url_for("search_get"))
-    render_template("search.html")
+    # check for arguments
+    #lei = request.form["lei"]
+    #name = request.form["name"]
+    #if lei: 
+    #    results = session.query(LegalEntity).filter(LegalEntity.lei == lei)
+    #    name = ""
+    #elif name:
+    #    results = session.query(LegalEntity).filter( 
+    #                           LegalEntity.legal_name.ilike('%'+name+'%'))
+    lei, name, results = query_lei()
+    return(render_template("search.html", lei_arg=lei, name_arg=name,
+                            results_arg=results))

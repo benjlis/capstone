@@ -1,6 +1,91 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container">
-<h2>Search coming soon</h2>
+<div class="container col-sm-12" id="qryform">
+    <h2>Search</h2>
+    <form class="form-inline" role="form" method="POST">
+        <div class="form-group">
+            <label for="lei">LEI:</label>
+            <input type="search" class="form-control" id="lei" name="lei" size="24" maxlength="20" value="{{ lei_arg }}">
+        </div>
+        <div class="form-group">
+            <label for="name:">Name:</label>
+            <input type="search" class="form-control" id="name" name="name" size="72" value="{{ name_arg }}">
+        </div>
+        <button type="submit" class="btn bt" data-toggle="tooltip" title="execute query"><span class="glyphicon glyphicon-search"></span></button>
+        <a href="{{ url_for('search_get') }}" data-toggle="tooltip" title="clear fields" class="btn bt" role="button"><span class="glyphicon glyphicon-erase"></span></a></li>
+        <!-- <input type="button" onclick="location.href= {{ url_for('search_get') }};" value="Clear" /> -->
+
+    </form>
+    <h2></h2>
+</div>
+<div class="container col-sm-12" id="qryresults">
+    <h2>Results</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th rowspan=2>LEI</th>
+            <th rowspan=2>Legal Name</th>
+            <th colspan=5>Legal Address</th>
+            <th colspan=5>HQ Address</th>
+            <th colspan=2>Business Registry</th>
+            <th rowspan=2>Jurisdiction</th>
+            <th rowspan=2>Legal Form</th>
+            <th colspan=4>Entity</th>
+            <th colspan=6>Registration</th>
+        </tr>
+        <tr>
+            <th>Street</th>
+            <th>City</th>
+            <th>State/Region</th>
+            <th>Country</th>
+            <th>Postcode</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>State/Region</th>
+            <th>Country</th>
+            <th>Postcode</th>
+            <th>Name</th>
+            <th>ID</th>
+            <th>Status</th>
+            <th>Expiration</th>
+            <th>Reason</th>
+            <th>Successor LEI</th>
+            <th>Initial Registration</th> 
+            <th>Last Updated</th>
+            <th>Registration Status</th>
+            <th>Next Renewal</th>
+            <th>Managing LOU</th>
+            <th>Validation Status</th>
+        </tr>
+{% for row in results_arg %}
+        <tr>
+            <td>{{row.lei}}</td>
+            <td>{{row.legal_name}}</td>
+            <td>{{row.legal_address_line1}}</td>
+            <td>{{row.legal_address_city}}</td>
+            <td>{{row.legal_address_region}}</td>
+            <td>{{row.legal_address_country}}</td>
+            <td>{{row.legal_address_postcode}}</td>
+            <td>{{row.hq_address_line1}}</td>
+            <td>{{row.hq_address_city}}</td>
+            <td>{{row.hq_address_region}}</td>
+            <td>{{row.hq_address_country}}</td>
+            <td>{{row.hq_address_postcode}}</td>
+            <td>{{row.business_registry}}</td>
+            <td>{{row.business_registry_id}}</td>
+            <td>{{row.legal_jurisdiction}}</td>
+            <td>{{row.legal_form}}</td>
+            <td>{{row.entity_status}}</td>
+            <td>{{row.entity_expiration_date}}</td>
+            <td>{{row.entity_expiration_reason}}</td>
+            <td>{{row.successor_lei}}</td>
+            <td>{{row.initial_registration_date}}</td>
+            <td>{{row.last_updated_date}}</td>
+            <td>{{row.registation_status}}</td>
+            <td>{{row.next_renewal_date}}</td>
+            <td>{{row.managing_lou}}</td>
+            <td>{{row.validation_status}}</td>
+        </tr>
+{% endfor %}
+    </table>
 </div>
 {% endblock %}
